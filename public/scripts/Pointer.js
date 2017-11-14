@@ -1,0 +1,4 @@
+/**
+* Class for Pointer elements
+*
+*/

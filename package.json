@@ -1,0 +1,27 @@
+{
+  "name": "bane_os",
+  "version": "0.0.1",
+  "description": "Browser-based \"OS\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve ./public",
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timoman7/bane_os.git"
+  },
+  "keywords": [
+    "browser",
+    "os"
+  ],
+  "author": "TCayer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timoman7/bane_os/issues"
+  },
+  "homepage": "https://github.com/timoman7/bane_os#readme",
+  "dependencies": {
+    "serve": "^6.4.1"
+  }
+}

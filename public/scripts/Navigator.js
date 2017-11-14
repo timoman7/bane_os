@@ -1,0 +1,4 @@
+/**
+* Class for Navigator elements
+*
+*/

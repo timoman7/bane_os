@@ -1,0 +1,4 @@
+/**
+* Class for Menu elements
+*
+*/

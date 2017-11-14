@@ -1,0 +1,4 @@
+/**
+* Class for Window elements
+*
+*/
