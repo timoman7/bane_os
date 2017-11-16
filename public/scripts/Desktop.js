@@ -18,7 +18,7 @@ export default class Desktop{
   }
   update(){
     SCREEN.canvas.width = window.innerWidth;
-    SCREEN.canvas.width = window.innerHeight;
+    SCREEN.canvas.height = window.innerHeight;
   }
   draw(){
     SCREEN.fillStyle = this.BACKGROUND_COLOR;

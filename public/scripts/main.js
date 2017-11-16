@@ -10,6 +10,8 @@ import {SCREEN} from './Screen.js';
 */
 let NavToolbar;
 let DesktopEnv;
+let MenuButton;
+let MousePointer;
 let Windows = [];
 
 /**
@@ -23,6 +25,7 @@ function addWindow(){
 function preload(){
     console.log("State - Preload - Start")
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
+  MousePointer = new Pointer();
     console.log("State - Preload - Finish")
 }
 function setup(){
@@ -33,6 +36,15 @@ function setup(){
   NavToolbar.set('x',0);
   NavToolbar.set('y',DesktopEnv.get('height') - NavToolbar.get('height'));
   NavToolbar.set('backgroundColor', "#0066cc");
+  MenuButton = new Button({
+    x: NavToolbar.get('x'),
+    y: NavToolbar.get('y'),
+    width: 40,
+    height: 40,
+    color: "#aa00bb",
+    title: "Open Start Menu"
+  });
+  NavToolbar.addItem('Menu', MenuButton);
     console.log("State - Setup - Finish")
 
   window.NavToolbar = NavToolbar;
@@ -45,6 +57,7 @@ function update(){
     Windows[windowIndex].update();
   }
   NavToolbar.update();
+  MousePointer.update();
 }
 function draw(){
   //console.log("Draw requested")
@@ -56,6 +69,7 @@ function draw(){
     Windows[windowIndex].draw();
   }
   NavToolbar.draw();
+  MousePointer.draw();
   requestAnimationFrame(draw);
 }
 
