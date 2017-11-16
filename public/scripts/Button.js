@@ -13,6 +13,7 @@ export default class Button{
     this.color = "#000000";
     this.icon;
     this.title = "";
+    this.hoverState = "default";
     if(arguments.length > 0){
       Object.assign(this, arguments[0]);
     }

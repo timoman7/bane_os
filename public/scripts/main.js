@@ -24,13 +24,16 @@ function addWindow(){
 
 function preload(){
     console.log("State - Preload - Start")
+  window.addEventListener('click',function(e){e.preventDefault();});
+  window.addEventListener('contextmenu',function(e){e.preventDefault();});
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
+  NavToolbar = new Navigator();
   MousePointer = new Pointer();
+  window.MousePointer = MousePointer;
     console.log("State - Preload - Finish")
 }
 function setup(){
     console.log("State - Setup - Start")
-  NavToolbar = new Navigator();
   NavToolbar.set('width', DesktopEnv.get('width'));
   NavToolbar.set('height', 40);
   NavToolbar.set('x',0);
@@ -42,7 +45,8 @@ function setup(){
     width: 40,
     height: 40,
     color: "#aa00bb",
-    title: "Open Start Menu"
+    title: "Open Start Menu",
+    hoverState: "auto"
   });
   NavToolbar.addItem('Menu', MenuButton);
     console.log("State - Setup - Finish")
@@ -63,8 +67,6 @@ function draw(){
   //console.log("Draw requested")
   update();
   DesktopEnv.draw();
-
-
   for(let windowIndex = 0; windowIndex < Windows.length; windowIndex++){
     Windows[windowIndex].draw();
   }
