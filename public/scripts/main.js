@@ -12,8 +12,9 @@ let NavToolbar;
 let DesktopEnv;
 let MenuButton;
 let MousePointer;
+let StartMenu;
 let Windows = [];
-
+let Menus = [];
 /**
 * </Hoisting>
 */
@@ -48,6 +49,21 @@ function setup(){
     title: "Open Start Menu",
     hoverState: "auto"
   });
+  StartMenu = new Menu('hidden', {
+    x: MenuButton.get('x'),
+    y: MenuButton.get('y')-130,
+    width: 50,
+    height: 130,
+    origin: 'tl'
+  });
+  MenuButton.addEvent('onClick',function(){
+    if(StartMenu.state == 'visible'){
+      StartMenu.hide();
+    }else if (StartMenu.state == 'hidden'){
+      StartMenu.hide();
+    }
+  });
+  window.StartMenu = StartMenu;
   NavToolbar.addItem('Menu', MenuButton);
     console.log("State - Setup - Finish")
 
@@ -61,6 +77,9 @@ function update(){
     Windows[windowIndex].update();
   }
   NavToolbar.update();
+  for(let menuIndex = 0; menuIndex < Menus.length; menuIndex++){
+    Menus[menuIndex].update();
+  }
   MousePointer.update();
 }
 function draw(){
@@ -71,6 +90,9 @@ function draw(){
     Windows[windowIndex].draw();
   }
   NavToolbar.draw();
+  for(let menuIndex = 0; menuIndex < Menus.length; menuIndex++){
+    Menus[menuIndex].draw();
+  }
   MousePointer.draw();
   requestAnimationFrame(draw);
 }
