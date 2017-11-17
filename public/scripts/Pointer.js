@@ -190,10 +190,16 @@ export default class Pointer{
             left: false,
             right: false
           },
+          pastButton:{
+            left: false,
+            right: false
+          },
           overItem: undefined,
           hoverTime: 0
         };
       }else{
+        SCREEN.mouse.pastButton.left = SCREEN.mouse.button.left;
+        SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
         SCREEN.mouse.pos = {x: e.clientX, y: e.clientY};
         SCREEN.mouse.hoverTime = 0;
       }
@@ -209,10 +215,16 @@ export default class Pointer{
             left: false,
             right: false
           },
+          pastButton:{
+            left: false,
+            right: false
+          },
           overItem: undefined,
           hoverTime: 0
         };
       }else{
+        SCREEN.mouse.pastButton.left = SCREEN.mouse.button.left;
+        SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
         SCREEN.mouse.button[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = true;
         SCREEN.mouse.hoverTime = 0;
       }
@@ -228,10 +240,16 @@ export default class Pointer{
             left: false,
             right: false
           },
+          pastButton: {
+            left: false,
+            right: false
+          },
           overItem: undefined,
           hoverTime: 0
         };
       }else{
+        SCREEN.mouse.pastButton.left = SCREEN.mouse.button.left;
+        SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
         SCREEN.mouse.button[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = false;
         SCREEN.mouse.hoverTime = 0;
       }
@@ -262,6 +280,12 @@ export default class Pointer{
               CB(SCREEN.mouse);
             });
           }
+          if(SCREEN.mouse ? (SCREEN.mouse.pastButton.left == true || SCREEN.mouse.pastButton.right == true) : false){
+            console.log(SCREEN.mouse.pastButton)
+            item.events.onRelease.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
         }
       });
     });
@@ -270,6 +294,10 @@ export default class Pointer{
       if(SCREEN.mouse){
         SCREEN.mouse.hoverTime = 0;
       }
+    }
+    if(SCREEN.mouse){
+      SCREEN.mouse.pastButton.left = SCREEN.mouse.button.left;
+      SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
     }
   }
   draw(){

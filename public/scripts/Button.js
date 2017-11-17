@@ -23,7 +23,12 @@ export default class Button{
           console.log(e.pos, e.button);
         }
       ],
+      onRelease: [
 
+      ],
+      onDown: [
+
+      ],
     };
   }
   set(prop, val){

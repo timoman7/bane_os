@@ -56,11 +56,12 @@ function setup(){
     height: 130,
     origin: 'tl'
   });
-  MenuButton.addEvent('onClick',function(){
+  MenuButton.addEvent('onRelease',function(){
+    //console.log(StartMenu.state);
     if(StartMenu.state == 'visible'){
       StartMenu.hide();
     }else if (StartMenu.state == 'hidden'){
-      StartMenu.hide();
+      StartMenu.show();
     }
   });
   window.StartMenu = StartMenu;
