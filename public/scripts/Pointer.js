@@ -189,10 +189,13 @@ export default class Pointer{
           button: {
             left: false,
             right: false
-          }
+          },
+          overItem: undefined,
+          hoverTime: 0
         };
       }else{
         SCREEN.mouse.pos = {x: e.clientX, y: e.clientY};
+        SCREEN.mouse.hoverTime = 0;
       }
     }, false);
     window.addEventListener('mousedown',function(e){
@@ -205,10 +208,13 @@ export default class Pointer{
           button: {
             left: false,
             right: false
-          }
+          },
+          overItem: undefined,
+          hoverTime: 0
         };
       }else{
         SCREEN.mouse.button[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = true;
+        SCREEN.mouse.hoverTime = 0;
       }
     }, false);
     window.addEventListener('mouseup',function(e){
@@ -221,10 +227,13 @@ export default class Pointer{
           button: {
             left: false,
             right: false
-          }
+          },
+          overItem: undefined,
+          hoverTime: 0
         };
       }else{
         SCREEN.mouse.button[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = false;
+        SCREEN.mouse.hoverTime = 0;
       }
     }, false);
   }
@@ -244,14 +253,36 @@ export default class Pointer{
         if(this.x > item.x && this.x < item.x + item.width && this.y > item.y && this.y < item.y + item.height){
           this.state = item.hoverState;
           this.overItem = true;
+          if(SCREEN.mouse){
+            SCREEN.mouse.hoverTime++;
+            SCREEN.mouse.overItem = item;
+          }
+          if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
+            item.events.onClick.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
         }
       });
     });
     if(!this.overItem){
       this.state = "default";
+      if(SCREEN.mouse){
+        SCREEN.mouse.hoverTime = 0;
+      }
     }
   }
   draw(){
+    if(SCREEN.mouse){
+      if(SCREEN.mouse.hoverTime > 60){
+        if(SCREEN.mouse.overItem){
+          SCREEN.fillStyle = "#ffffff";
+          SCREEN.fillRect(SCREEN.mouse.pos.x,SCREEN.mouse.pos.y-12,SCREEN.mouse.overItem.title.length * 6, 12)
+          SCREEN.fillStyle = "#000000";
+          SCREEN.fillText(SCREEN.mouse.overItem.title, SCREEN.mouse.pos.x+2,SCREEN.mouse.pos.y-2);
+        }
+      }
+    }
     SCREEN.drawImage( this.icons[this.state].src, this.icons[this.state].x, this.icons[this.state].y, this.icons[this.state].w, this.icons[this.state].h,
                       this.x - (this.icons[this.state].w-1)/3, this.y - (this.icons[this.state].h-1)/4, this.icons[this.state].w, this.icons[this.state].h);
     SCREEN.fillRect(this.x,this.y,1,1)

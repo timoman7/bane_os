@@ -17,12 +17,26 @@ export default class Button{
     if(arguments.length > 0){
       Object.assign(this, arguments[0]);
     }
+    this.events = {
+      onClick: [
+        function(e){
+          console.log(e.pos, e.button);
+        }
+      ],
+
+    };
   }
   set(prop, val){
     this[prop] = val;
   }
   get(prop){
     return this[prop];
+  }
+  addEvent(eventName, func){
+    this.events[eventName].push(func);
+  }
+  remEvent(eventName, func){
+    this.events[eventName].splice(this.events[eventName].indexOf(func),1);
   }
   update(){
 
