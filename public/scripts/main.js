@@ -23,6 +23,12 @@ function addWindow(){
   Windows.push(new Window(...arguments));
 }
 
+function addMenu(){
+  let _TEMPMENU = new Menu(...arguments);
+  Menus.push(_TEMPMENU);
+  return _TEMPMENU;
+}
+
 function preload(){
     console.log("State - Preload - Start")
   window.addEventListener('click',function(e){e.preventDefault();});
@@ -49,12 +55,12 @@ function setup(){
     title: "Open Start Menu",
     hoverState: "auto"
   });
-  StartMenu = new Menu('hidden', {
+  StartMenu = addMenu('hidden', {
     x: MenuButton.get('x'),
-    y: MenuButton.get('y')-130,
+    y: MenuButton.get('y'),
     width: 50,
     height: 130,
-    origin: 'tl'
+    origin: 'bl'
   });
   MenuButton.addEvent('onRelease',function(){
     //console.log(StartMenu.state);
