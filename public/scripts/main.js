@@ -32,7 +32,11 @@ function addMenu(){
 function preload(){
     console.log("State - Preload - Start")
   window.addEventListener('click',function(e){e.preventDefault();});
+  window.addEventListener('mouseup',function(e){e.preventDefault();});
+  window.addEventListener('mousedown',function(e){e.preventDefault();});
   window.addEventListener('contextmenu',function(e){e.preventDefault();});
+  window.addEventListener('keydown',function(e){e.preventDefault();});
+  window.addEventListener('keyup',function(e){e.preventDefault();});
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
   NavToolbar = new Navigator();
   MousePointer = new Pointer();
@@ -53,7 +57,7 @@ function setup(){
     height: 40,
     color: "#aa00bb",
     title: "Open Start Menu",
-    hoverState: "auto"
+    hoverState: "pointer"
   });
   StartMenu = addMenu('hidden', {
     x: MenuButton.get('x'),

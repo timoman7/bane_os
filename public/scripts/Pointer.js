@@ -194,6 +194,10 @@ export default class Pointer{
             left: false,
             right: false
           },
+          justReleased:{
+            left: false,
+            right: false
+          },
           overItem: undefined,
           hoverTime: 0
         };
@@ -216,6 +220,10 @@ export default class Pointer{
             right: false
           },
           pastButton:{
+            left: false,
+            right: false
+          },
+          justReleased:{
             left: false,
             right: false
           },
@@ -244,6 +252,10 @@ export default class Pointer{
             left: false,
             right: false
           },
+          justReleased:{
+            left: false,
+            right: false
+          },
           overItem: undefined,
           hoverTime: 0
         };
@@ -252,6 +264,7 @@ export default class Pointer{
         SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
         SCREEN.mouse.button[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = false;
         SCREEN.mouse.hoverTime = 0;
+        SCREEN.mouse.justReleased[e.which == 1 ? 'left' : e.which == 3 ? 'right' : e.which] = true;
       }
     }, false);
   }
@@ -280,7 +293,7 @@ export default class Pointer{
               CB(SCREEN.mouse);
             });
           }
-          if(SCREEN.mouse ? (SCREEN.mouse.pastButton.left == true || SCREEN.mouse.pastButton.right == true) : false){
+          if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
             console.log(SCREEN.mouse.pastButton)
             item.events.onRelease.forEach((CB) => {
               CB(SCREEN.mouse);
@@ -298,6 +311,12 @@ export default class Pointer{
     if(SCREEN.mouse){
       SCREEN.mouse.pastButton.left = SCREEN.mouse.button.left;
       SCREEN.mouse.pastButton.right = SCREEN.mouse.button.right;
+    }
+    if(SCREEN.mouse){
+      if(SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right){
+        SCREEN.mouse.justReleased.left = SCREEN.mouse.justReleased.left ? false : SCREEN.mouse.justReleased.left;
+        SCREEN.mouse.justReleased.right = SCREEN.mouse.justReleased.right ? false : SCREEN.mouse.justReleased.right;
+      }
     }
   }
   draw(){
