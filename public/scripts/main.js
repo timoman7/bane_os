@@ -5,6 +5,15 @@ import Menu from './Menu.js';
 import Button from './Button.js';
 import Desktop from './Desktop.js';
 import {SCREEN} from './Screen.js';
+
+// TODO: Add generalized right clicking
+// TODO: Close menus when clicking anywhere except on them
+// IDEA: Add Internet
+// IDEA: Add text editors
+// IDEA: Add "file storage" via JSON and localStorage
+// IDEA: Add users via JSON and localStorage
+// IDEA: Add guest users using sessionStorage
+// IDEA: Add globalized logins using firebase
 /**
 * <Hoisting>
 */
