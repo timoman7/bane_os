@@ -8,6 +8,7 @@ export default class Pointer{
   constructor(){
     this.x = 0;
     this.y = 0;
+    this.type = "Pointer";
     this.icons = {
       auto: {
         src: cursor_icons,

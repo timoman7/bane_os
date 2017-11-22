@@ -10,6 +10,7 @@ export default class Navigator{
     this.y = 0;
     this.width = 0;
     this.height = 0;
+    this.type = "Navigator";
     this.backgroundColor = "#20a0a0";
     this.textColor = "#f0aaaa";
     this.children = {
@@ -17,12 +18,31 @@ export default class Navigator{
       Programs: [],
       QuickButtons: []
     };
+    this.events = {
+      onClick: [
+        function(e){
+          console.log(e.pos, e.button);
+        }
+      ],
+      onRelease: [
+
+      ],
+      onDown: [
+
+      ],
+    };
   }
   set(prop, val){
     this[prop] = val;
   }
   get(prop){
     return this[prop];
+  }
+  addEvent(eventName, func){
+    this.events[eventName].push(func);
+  }
+  remEvent(eventName, func){
+    this.events[eventName].splice(this.events[eventName].indexOf(func),1);
   }
   addItem(type, item){
     this.children[type].push(item);
