@@ -3,6 +3,24 @@
 *
 */
 import {SCREEN} from './Screen.js';
+import Events from './Events.js';
+
+function offsetMult(origin){
+  switch(origin){
+    case 'tl':
+      return {x:1,y:1};
+      break;
+    case 'tr':
+      return {x:-1,y:1};
+      break;
+    case 'bl':
+      return {x:1,y:-1};
+      break;
+    case 'br':
+      return {x:-1,y:-1};
+      break;
+  }
+};
 
 export default class Menu{
   constructor(state){
@@ -11,25 +29,19 @@ export default class Menu{
     this.y = 0;
     this.width = 0;
     this.height = 0;
+    this.tlx = 0;
+    this.tly = 0;
     this.type = "Menu";
     this.origin = 'tl';
+    this.offset = offsetMult(this.origin);
     this.backgroundColor = "#ffffff";
+    this.items = [
+
+    ];
     if(arguments.length > 1){
       Object.assign(this, arguments[1]);
     }
-    this.events = {
-      onClick: [
-        function(e){
-          console.log(e.pos, e.button);
-        }
-      ],
-      onRelease: [
-
-      ],
-      onDown: [
-
-      ],
-    };
+    this.events = new Events();
   }
   set(prop, val){
     this[prop] = val;
@@ -38,10 +50,10 @@ export default class Menu{
     return this[prop];
   }
   addEvent(eventName, func){
-    this.events[eventName].push(func);
+    this.events.addEvent(eventName,func);
   }
   remEvent(eventName, func){
-    this.events[eventName].splice(this.events[eventName].indexOf(func),1);
+    this.events.removeEvent(eventName,func);
   }
   show(){
     this.state = 'visible';
@@ -50,25 +62,24 @@ export default class Menu{
     this.state = 'hidden';
   }
   update(){
-
+    this.offset = offsetMult(this.origin);
+    this.tlx = this.offset.x < 0 ? this.x - this.width : this.x;
+    this.tly = this.offset.y < 0 ? this.y - this.height : this.y;
+    this.items.forEach((item) => {
+      if(item.position == 'relative'){
+        item.update(this.tlx, this.tly);
+      }else{
+        item.update();
+      }
+    });
   }
   draw(){
     if(this.state == 'visible'){
       SCREEN.fillStyle = this.backgroundColor;
-      switch(this.origin){
-        case 'tl':
-          SCREEN.fillRect(this.x,this.y,this.width,this.height);
-          break;
-        case 'tr':
-          SCREEN.fillRect(this.x,this.y,-this.width,this.height);
-          break;
-        case 'bl':
-          SCREEN.fillRect(this.x,this.y,this.width,-this.height);
-          break;
-        case 'br':
-          SCREEN.fillRect(this.x,this.y,-this.width,-this.height);
-          break;
-      }
+      SCREEN.fillRect(this.x,this.y,this.width*this.offset.x,this.height*this.offset.y);
+      this.items.forEach((item) => {
+        item.draw();
+      });
     }
   }
 }

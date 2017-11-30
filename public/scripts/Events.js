@@ -12,8 +12,16 @@ export default class Events{
       });
     }
   }
-  addEvent(eventName){
-
+  addEvent(eventName, func){
+    if(this[eventName]){
+      this[eventName].push(func);
+    }else{
+      this[eventName] = [];
+      this[eventName].push(func);
+    }
+  }
+  removeEvent(eventName, func){
+    this[eventName].splice(this[eventName].indexOf(func),1);
   }
   addEventListener(eventName, callback){
 

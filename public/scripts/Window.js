@@ -3,28 +3,29 @@
 *
 */
 import {SCREEN} from './Screen.js';
+import Program from './Program.js';
+import Events from './Events.js';
 
-export default class Window{
-  constructor(x,y,width,height,title){
+export default class Window extends Program{
+  constructor(){
+    super({
+      type: "Window"
+    });
+    let x = (typeof(arguments[0]) == 'object' ? arguments[0].x : (arguments[0] || 0));
+    let y = (typeof(arguments[0]) == 'object' ? arguments[0].y : (arguments[1] || 0));
+    let width = (typeof(arguments[0]) == 'object' ? arguments[0].width : (arguments[2] || 0));
+    let height = (typeof(arguments[0]) == 'object' ? arguments[0].height : (arguments[3] || 0));
+    let title = (typeof(arguments[0]) == 'object' ? arguments[0].title : (arguments[4] || 0));
     this.title = title;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.type = "Window";
-    this.events = {
-      onClick: [
-        function(e){
-          console.log(e.pos, e.button);
-        }
-      ],
-      onRelease: [
-
-      ],
-      onDown: [
-
-      ],
-    };
+    if(typeof(arguments[0]) == 'object'){
+      Object.assign(this, arguments[0]);
+    }
+    this.events = new Events();
   }
   set(prop, val){
     this[prop] = val;
@@ -33,10 +34,10 @@ export default class Window{
     return this[prop];
   }
   addEvent(eventName, func){
-    this.events[eventName].push(func);
+    this.events.addEvent(eventName,func);
   }
   remEvent(eventName, func){
-    this.events[eventName].splice(this.events[eventName].indexOf(func),1);
+    this.events.removeEvent(eventName,func);
   }
   update(){
 

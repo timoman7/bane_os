@@ -4,6 +4,25 @@
 */
 import {SCREEN} from './Screen.js';
 import {cursor_icons} from './Cursor_Icons.js';
+import {ClassHolder} from './ClassHolder.js';
+
+function recursiveFor(OS_CLASS, hitEnd){
+  if(!hitEnd){
+  	if(OS_CLASS.children){
+  		OS_CLASS.children.forEach((child) => {
+  			recursiveFor(OS_CLASS.children, false);
+      });
+  	}else if(OS_CLASS.items){
+  		OS_CLASS.items.forEach((item) => {
+  			recursiveFor(OS_CLASS.items, false);
+      });
+      }else{
+  		  recursiveFor(OS_CLASS, true);
+      }
+  }else{
+  	return OS_CLASS;
+  }
+}
 export default class Pointer{
   constructor(){
     this.x = 0;
@@ -280,6 +299,49 @@ export default class Pointer{
     this.y = SCREEN.mouse !== undefined ? SCREEN.mouse.pos !== undefined ? SCREEN.mouse.pos.y /*- (this.icons[this.state].h-1)/4 */: 0 : 0;
     //Add z-index-esque property to windows and buttons later
     this.overItem = false;
+    ClassHolder.forEach((OS_CLASS) => {
+      if(OS_CLASS.position ? OS_CLASS.position != 'relative': true){
+        if(this.x > OS_CLASS.x && this.x < OS_CLASS.x + OS_CLASS.width && this.y > OS_CLASS.y && this.y < OS_CLASS.y + OS_CLASS.height){
+          this.state = OS_CLASS.hoverState || 'default';
+          this.overItem = true;
+          if(SCREEN.mouse){
+            SCREEN.mouse.hoverTime++;
+            SCREEN.mouse.overItem = OS_CLASS;
+          }
+          if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
+            OS_CLASS.events.onMouseClick.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
+          if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
+            console.log(SCREEN.mouse.pastButton)
+            OS_CLASS.events.onMouseRelease.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
+        }
+      }else{
+        if(this.x > OS_CLASS.rx && this.x < OS_CLASS.rx + OS_CLASS.width && this.y > OS_CLASS.ry && this.y < OS_CLASS.ry + OS_CLASS.height){
+          this.state = OS_CLASS.hoverState || 'default';
+          this.overItem = true;
+          if(SCREEN.mouse){
+            SCREEN.mouse.hoverTime++;
+            SCREEN.mouse.overItem = OS_CLASS;
+          }
+          if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
+            OS_CLASS.events.onMouseClick.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
+          if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
+            console.log(SCREEN.mouse.pastButton)
+            OS_CLASS.events.onMouseRelease.forEach((CB) => {
+              CB(SCREEN.mouse);
+            });
+          }
+        }
+      }
+    });
     ["Menu","Programs","QuickButtons"].forEach((type) => {
       NavToolbar.children[type].forEach((item) =>{
         if(this.x > item.x && this.x < item.x + item.width && this.y > item.y && this.y < item.y + item.height){
@@ -290,13 +352,13 @@ export default class Pointer{
             SCREEN.mouse.overItem = item;
           }
           if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
-            item.events.onClick.forEach((CB) => {
+            item.events.onMouseClick.forEach((CB) => {
               CB(SCREEN.mouse);
             });
           }
           if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
             console.log(SCREEN.mouse.pastButton)
-            item.events.onRelease.forEach((CB) => {
+            item.events.onMouseRelease.forEach((CB) => {
               CB(SCREEN.mouse);
             });
           }

@@ -3,6 +3,7 @@
 *
 */
 import {SCREEN} from './Screen.js';
+import Events from './Events.js';
 
 export default class Button{
   constructor(){
@@ -18,19 +19,7 @@ export default class Button{
     if(arguments.length > 0){
       Object.assign(this, arguments[0]);
     }
-    this.events = {
-      onClick: [
-        function(e){
-          console.log(e.pos, e.button);
-        }
-      ],
-      onRelease: [
-
-      ],
-      onDown: [
-
-      ],
-    };
+    this.events = new Events();
   }
   set(prop, val){
     this[prop] = val;
@@ -39,10 +28,10 @@ export default class Button{
     return this[prop];
   }
   addEvent(eventName, func){
-    this.events[eventName].push(func);
+    this.events.addEvent(eventName,func);
   }
   remEvent(eventName, func){
-    this.events[eventName].splice(this.events[eventName].indexOf(func),1);
+    this.events.removeEvent(eventName,func);
   }
   update(){
 

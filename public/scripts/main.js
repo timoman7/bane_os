@@ -4,8 +4,11 @@ import Navigator from './Navigator.js';
 import Menu from './Menu.js';
 import Button from './Button.js';
 import Desktop from './Desktop.js';
+import Program from './Program.js';
+import Shortcut from './Shortcut.js';
+import InternetBrowser from './InternetBrowser.js';
 import {SCREEN} from './Screen.js';
-
+import {ClassHolder} from './ClassHolder.js';
 // TODO: Add generalized right clicking
 // TODO: Close menus when clicking anywhere except on them
 // IDEA: Add Internet
@@ -22,20 +25,27 @@ let DesktopEnv;
 let MenuButton;
 let MousePointer;
 let StartMenu;
-let Windows = [];
-let Menus = [];
+window.Program = Program;
+window.Window = Window;
+window.InternetBrowser = InternetBrowser;
 /**
 * </Hoisting>
 */
 
 function addWindow(){
-  Windows.push(new Window(...arguments));
+  ClassHolder.push(new Window(...arguments));
 }
 
 function addMenu(){
   let _TEMPMENU = new Menu(...arguments);
-  Menus.push(_TEMPMENU);
+  ClassHolder.push(_TEMPMENU);
   return _TEMPMENU;
+}
+
+function addShortcut(){
+  let _TEMPSHORTCUT = new Shortcut(...arguments);
+  ClassHolder.push(_TEMPSHORTCUT);
+  return _TEMPSHORTCUT;
 }
 
 function preload(){
@@ -68,19 +78,35 @@ function setup(){
     title: "Open Start Menu",
     hoverState: "pointer"
   });
+  let firstShortcut = addShortcut({
+    x: 0,
+    y: 0,
+    width: 150,
+    height: 20,
+    name: 'First shortcut',
+    title: 'First shortcut hover',
+  });
+  firstShortcut.addEvent('onMouseRelease',function(){
+    Program.open(new InternetBrowser());
+  });
   StartMenu = addMenu('hidden', {
     x: MenuButton.get('x'),
     y: MenuButton.get('y'),
-    width: 50,
-    height: 130,
-    origin: 'bl'
+    width: 150,
+    height: 260,
+    origin: 'bl',
+    items: [
+      firstShortcut,
+    ]
   });
-  MenuButton.addEvent('onRelease',function(){
+  MenuButton.addEvent('onMouseRelease',function(){
     //console.log(StartMenu.state);
     if(StartMenu.state == 'visible'){
       StartMenu.hide();
+      StartMenu.items.forEach((item)=>{item.hide();});
     }else if (StartMenu.state == 'hidden'){
       StartMenu.show();
+      StartMenu.items.forEach((item)=>{item.show();});
     }
   });
   window.StartMenu = StartMenu;
@@ -93,25 +119,25 @@ function setup(){
 function update(){
   //console.log("Update requested")
   DesktopEnv.update();
-  for(let windowIndex = 0; windowIndex < Windows.length; windowIndex++){
-    Windows[windowIndex].update();
-  }
   NavToolbar.update();
-  for(let menuIndex = 0; menuIndex < Menus.length; menuIndex++){
-    Menus[menuIndex].update();
+  for(let ClassIndex = 0; ClassIndex < ClassHolder.length; ClassIndex++){
+    ClassHolder[ClassIndex].update();
   }
   MousePointer.update();
+  window.ClassHolder = ClassHolder;
 }
 function draw(){
   //console.log("Draw requested")
   update();
   DesktopEnv.draw();
-  for(let windowIndex = 0; windowIndex < Windows.length; windowIndex++){
-    Windows[windowIndex].draw();
-  }
-  NavToolbar.draw();
-  for(let menuIndex = 0; menuIndex < Menus.length; menuIndex++){
-    Menus[menuIndex].draw();
+  for(let ClassIndex = 0; ClassIndex < ClassHolder.length; ClassIndex++){
+    if(ClassHolder[ClassIndex].type == "Menu" && ClassHolder[ClassIndex].type == "Button"){
+      NavToolbar.draw();
+    }
+    ClassHolder[ClassIndex].draw();
+    if(ClassHolder[ClassIndex].type != "Menu" && ClassHolder[ClassIndex].type != "Button"){
+      NavToolbar.draw();
+    }
   }
   MousePointer.draw();
   requestAnimationFrame(draw);
