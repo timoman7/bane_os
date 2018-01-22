@@ -5,7 +5,7 @@
 import {SCREEN} from './Screen.js';
 import Program from './Program.js';
 import Events from './Events.js';
-
+import Topbar from './Topbar.js';
 export default class Window extends Program{
   constructor(){
     super({
@@ -22,6 +22,7 @@ export default class Window extends Program{
     this.width = width;
     this.height = height;
     this.type = "Window";
+    this.topBar = new Topbar(this);
     if(typeof(arguments[0]) == 'object'){
       Object.assign(this, arguments[0]);
     }
@@ -43,6 +44,6 @@ export default class Window extends Program{
 
   }
   draw(){
-
+    this.topBar.draw();
   }
 }

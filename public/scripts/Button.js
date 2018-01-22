@@ -15,6 +15,7 @@ export default class Button{
     this.color = "#000000";
     this.icon;
     this.title = "";
+    this.textSize = parseFloat(SCREEN.font.split(" ")[0].replace('px',''));
     this.hoverState = "default";
     if(arguments.length > 0){
       Object.assign(this, arguments[0]);
@@ -35,9 +36,16 @@ export default class Button{
   }
   update(){
 
+    this.textSize = parseFloat(SCREEN.font.split(" ")[0].replace('px',''));
   }
   draw(){
     SCREEN.fillStyle = this.color;
     SCREEN.fillRect(this.x, this.y, this.width, this.height);
+    if(this.icon){
+
+    }else if(this.text){
+      SCREEN.fillStyle = this.textColor ? this.textColor : "#000";
+      SCREEN.fillText(this.text, this.x + (this.width/2) - (this.textSize/2), this.y + (this.height/2) + (this.textSize/2));
+    }
   }
 }

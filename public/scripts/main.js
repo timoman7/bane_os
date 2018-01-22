@@ -1,12 +1,15 @@
 import Window from './Window.js';
 import Pointer from './Pointer.js';
+import Events from './Events.js';
 import Navigator from './Navigator.js';
 import Menu from './Menu.js';
 import Button from './Button.js';
 import Desktop from './Desktop.js';
+import Executable from './Executable.js';
 import Program from './Program.js';
 import Shortcut from './Shortcut.js';
 import InternetBrowser from './InternetBrowser.js';
+import {File, Folder} from './File.js';
 import {SCREEN} from './Screen.js';
 import {ClassHolder} from './ClassHolder.js';
 // TODO: Add generalized right clicking
@@ -25,9 +28,15 @@ let DesktopEnv;
 let MenuButton;
 let MousePointer;
 let StartMenu;
+let ProgramNames = ['Notepad'];
+let Programs = {};
 window.Program = Program;
 window.Window = Window;
-window.InternetBrowser = InternetBrowser;
+window.InternetBrowser = InternetBrowser
+window.File = File;
+window.Folder = Folder;
+window.Executable = Executable;
+window.Events = Events;
 /**
 * </Hoisting>
 */
@@ -59,6 +68,11 @@ function preload(){
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
   NavToolbar = new Navigator();
   MousePointer = new Pointer();
+  for(let PNI = 0; PNI < ProgramNames.length; PNI++){
+    let PN = ProgramNames[PNI];
+    console.log(PN)
+    import('./Programs/'+PN+'.js');
+  }
   window.MousePointer = MousePointer;
     console.log("State - Preload - Finish")
 }

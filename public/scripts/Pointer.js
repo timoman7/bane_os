@@ -386,10 +386,12 @@ export default class Pointer{
     if(SCREEN.mouse){
       if(SCREEN.mouse.hoverTime > 60){
         if(SCREEN.mouse.overItem){
-          SCREEN.fillStyle = "#ffffff";
-          SCREEN.fillRect(SCREEN.mouse.pos.x,SCREEN.mouse.pos.y-12,SCREEN.mouse.overItem.title.length * 6, 12)
-          SCREEN.fillStyle = "#000000";
-          SCREEN.fillText(SCREEN.mouse.overItem.title, SCREEN.mouse.pos.x+2,SCREEN.mouse.pos.y-2);
+          if(SCREEN.mouse.overItem.title){
+            SCREEN.fillStyle = "#ffffff";
+            SCREEN.fillRect(SCREEN.mouse.pos.x,SCREEN.mouse.pos.y-12,SCREEN.mouse.overItem.title.length * 6, 12)
+            SCREEN.fillStyle = "#000000";
+            SCREEN.fillText(SCREEN.mouse.overItem.title, SCREEN.mouse.pos.x+2,SCREEN.mouse.pos.y-2);
+          }
         }
       }
     }
