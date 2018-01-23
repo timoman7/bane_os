@@ -22,7 +22,7 @@ export default class Notepad extends Executable{
     this.topBar = new Topbar(this);
     this.data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
                '<foreignObject width="100%" height="100%" style="border: 4px solid black;">' +
-               '<div xmlns="http://www.w3.org/1999/xhtml"><h1>Out of order</h1></div>' +
+               '<div xmlns="http://www.w3.org/1999/xhtml"><input></input></div>' +
                '</foreignObject>' +
                '</svg>';
     this.DOMURL = window.URL || window.webkitURL || window;
@@ -32,16 +32,9 @@ export default class Notepad extends Executable{
     this.svg = new Blob([this.data], {type: 'image/svg+xml'});
     this.url = this.DOMURL.createObjectURL(this.svg);
     this.img.src = this.url;
-    this.events.forEach((event) => {
-
-      this.addEvent(event, function(e){
-        this.topBar.children.forEach((child)=>{
-          this.topBar.children[child].addEvent(event, function(e){
-            console.log(e);
-          })
-        });
-      });
-    });
+    this.children = [
+      this.topBar
+    ];
   }
   run(){
 
@@ -61,4 +54,5 @@ export default class Notepad extends Executable{
     this.topBar.draw()
   }
 }
+
 window.Notepad = Notepad;

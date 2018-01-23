@@ -13,10 +13,9 @@ export default class Events{
     }
   }
   forEach(){
-    Object.keys(this).forEach((key)=>{
-      arguments[0](this[key])
-    });
-  }
+    console.log(Object.keys(this))
+    Object.keys(this).forEach(...arguments);
+  };
   addEvent(eventName, func){
     if(this[eventName]){
       this[eventName].push(func);

@@ -19,11 +19,10 @@ class Program{
 
   }
   draw(){
-    
+
   }
 }
 Program.open = function(_Program){
   ClassHolder.push(_Program);
-  _Program.open();
 };
 export default Program

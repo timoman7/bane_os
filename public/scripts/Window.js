@@ -23,6 +23,9 @@ export default class Window extends Program{
     this.height = height;
     this.type = "Window";
     this.topBar = new Topbar(this);
+    this.children = [
+      this.topBar
+    ];
     if(typeof(arguments[0]) == 'object'){
       Object.assign(this, arguments[0]);
     }

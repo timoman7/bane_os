@@ -6,23 +6,43 @@ import {SCREEN} from './Screen.js';
 import {cursor_icons} from './Cursor_Icons.js';
 import {ClassHolder} from './ClassHolder.js';
 
-function recursiveFor(OS_CLASS, hitEnd){
-  if(!hitEnd){
-  	if(OS_CLASS.children){
-  		OS_CLASS.children.forEach((child) => {
-  			recursiveFor(OS_CLASS.children, false);
+function recursiveFor(OS_CLASS, CB, hitEnd){
+  if(hitEnd != true){
+  	if(OS_CLASS == ClassHolder){
+      OS_CLASS.forEach((child)=>{
+        recursiveFor(child, CB, false);
       });
-  	}else if(OS_CLASS.items){
-  		OS_CLASS.items.forEach((item) => {
-  			recursiveFor(OS_CLASS.items, false);
-      });
-      }else{
-  		  recursiveFor(OS_CLASS, true);
+    }else if(OS_CLASS.children){
+      if(OS_CLASS.children.forEach){
+  		  OS_CLASS.children.forEach((child) => {
+          recursiveFor(child, CB, false);
+        });
+      }else if(Object.keys(OS_CLASS.children)){
+        [...Object.keys(OS_CLASS.children)].forEach((child) => {
+          recursiveFor(OS_CLASS.children[child], CB, false);
+        });
       }
+  	}else if(OS_CLASS.items){
+      if(OS_CLASS.items.forEach){
+  		  OS_CLASS.items.forEach((item) => {
+          recursiveFor(item, CB, false);
+        });
+      }else if(Object.keys(OS_CLASS.items)){
+        [...Object.keys(OS_CLASS.items)].forEach((item) => {
+          recursiveFor(OS_CLASS.items[item], CB, false);
+        });
+      }
+    }else{
+		  recursiveFor(OS_CLASS, CB, true);
+    }
   }else{
+    if(CB){
+      CB(OS_CLASS);
+    }
   	return OS_CLASS;
   }
 }
+window.recursiveFor=recursiveFor;
 export default class Pointer{
   constructor(){
     this.x = 0;
@@ -299,7 +319,7 @@ export default class Pointer{
     this.y = SCREEN.mouse !== undefined ? SCREEN.mouse.pos !== undefined ? SCREEN.mouse.pos.y /*- (this.icons[this.state].h-1)/4 */: 0 : 0;
     //Add z-index-esque property to windows and buttons later
     this.overItem = false;
-    ClassHolder.forEach((OS_CLASS) => {
+    recursiveFor(ClassHolder,(OS_CLASS) => {
       if(OS_CLASS.position ? OS_CLASS.position != 'relative': true){
         if(this.x > OS_CLASS.x && this.x < OS_CLASS.x + OS_CLASS.width && this.y > OS_CLASS.y && this.y < OS_CLASS.y + OS_CLASS.height){
           this.state = OS_CLASS.hoverState || 'default';
@@ -342,29 +362,29 @@ export default class Pointer{
         }
       }
     });
-    ["Menu","Programs","QuickButtons"].forEach((type) => {
-      NavToolbar.children[type].forEach((item) =>{
-        if(this.x > item.x && this.x < item.x + item.width && this.y > item.y && this.y < item.y + item.height){
-          this.state = item.hoverState;
-          this.overItem = true;
-          if(SCREEN.mouse){
-            SCREEN.mouse.hoverTime++;
-            SCREEN.mouse.overItem = item;
-          }
-          if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
-            item.events.onMouseClick.forEach((CB) => {
-              CB(SCREEN.mouse);
-            });
-          }
-          if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
-            console.log(SCREEN.mouse.pastButton)
-            item.events.onMouseRelease.forEach((CB) => {
-              CB(SCREEN.mouse);
-            });
-          }
-        }
-      });
-    });
+    // ["Menu","Programs","QuickButtons"].forEach((type) => {
+    //   NavToolbar.children[type].children.forEach((item) =>{
+    //     if(this.x > item.x && this.x < item.x + item.width && this.y > item.y && this.y < item.y + item.height){
+    //       this.state = item.hoverState;
+    //       this.overItem = true;
+    //       if(SCREEN.mouse){
+    //         SCREEN.mouse.hoverTime++;
+    //         SCREEN.mouse.overItem = item;
+    //       }
+    //       if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
+    //         item.events.onMouseClick.forEach((CB) => {
+    //           CB(SCREEN.mouse);
+    //         });
+    //       }
+    //       if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
+    //         console.log(SCREEN.mouse.pastButton)
+    //         item.events.onMouseRelease.forEach((CB) => {
+    //           CB(SCREEN.mouse);
+    //         });
+    //       }
+    //     }
+    //   });
+    // });
     if(!this.overItem){
       this.state = "default";
       if(SCREEN.mouse){

@@ -12,6 +12,7 @@ import InternetBrowser from './InternetBrowser.js';
 import {File, Folder} from './File.js';
 import {SCREEN} from './Screen.js';
 import {ClassHolder} from './ClassHolder.js';
+//import {Loader, ModuleNamespace} from './es-module-loader/core/loader-polyfill.js';
 // TODO: Add generalized right clicking
 // TODO: Close menus when clicking anywhere except on them
 // IDEA: Add Internet
@@ -23,12 +24,15 @@ import {ClassHolder} from './ClassHolder.js';
 /**
 * <Hoisting>
 */
+// let loader = new Loader();
+// window.Loader = Loader;
+// window.loader = loader;
 let NavToolbar;
 let DesktopEnv;
 let MenuButton;
 let MousePointer;
 let StartMenu;
-let ProgramNames = ['Notepad'];
+let ProgramNames = ['./Programs/Notepad.js','./Programs/Settings.js'];
 let Programs = {};
 window.Program = Program;
 window.Window = Window;
@@ -37,6 +41,15 @@ window.File = File;
 window.Folder = Folder;
 window.Executable = Executable;
 window.Events = Events;
+// loader[Loader.resolve] = function (key, parent) {
+//   // intercept the load of "x"
+//   if (ProgramNames.includes(key)) {
+//     this.registry.set(key, new ModuleNamespace({ some: 'exports' }));
+//     return key;
+//   }
+//   return Loader.prototype.resolve(key, parent);
+// };
+
 /**
 * </Hoisting>
 */
@@ -65,14 +78,22 @@ function preload(){
   window.addEventListener('contextmenu',function(e){e.preventDefault();});
   window.addEventListener('keydown',function(e){e.preventDefault();});
   window.addEventListener('keyup',function(e){e.preventDefault();});
+  // window.symbols = [];
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
   NavToolbar = new Navigator();
   MousePointer = new Pointer();
+  ClassHolder.push(DesktopEnv);
+  ClassHolder.push(NavToolbar);
   for(let PNI = 0; PNI < ProgramNames.length; PNI++){
     let PN = ProgramNames[PNI];
-    console.log(PN)
-    import('./Programs/'+PN+'.js');
+    import(PN).then((module)=>{
+      return module.default;
+    })
+  // .then((newClass)=>{
+  //     window[PN] = newClass;
+  //   });
   }
+  // console.log(Notepad)
   window.MousePointer = MousePointer;
     console.log("State - Preload - Finish")
 }
@@ -92,16 +113,38 @@ function setup(){
     title: "Open Start Menu",
     hoverState: "pointer"
   });
-  let firstShortcut = addShortcut({
+  let internetShortcut = new Shortcut({
     x: 0,
     y: 0,
     width: 150,
     height: 20,
-    name: 'First shortcut',
-    title: 'First shortcut hover',
+    name: 'Internet Browser',
+    title: 'Access the internet',
   });
-  firstShortcut.addEvent('onMouseRelease',function(){
+  internetShortcut.addEvent('onMouseRelease',function(e){
     Program.open(new InternetBrowser());
+  });
+  let notepadShortcut = new Shortcut({
+    x: 0,
+    y: 0,
+    width: 150,
+    height: 20,
+    name: 'Notepad',
+    title: 'Open notepad',
+  });
+  notepadShortcut.addEvent('onMouseRelease',function(e){
+    Executable.run(new Notepad);
+  });
+  let settingsShortcut = new Shortcut({
+    x: 0,
+    y: 0,
+    width: 150,
+    height: 20,
+    name: 'Settings',
+    title: 'Open settings',
+  });
+  settingsShortcut.addEvent('onMouseRelease',function(e){
+    Executable.run(new Settings);
   });
   StartMenu = addMenu('hidden', {
     x: MenuButton.get('x'),
@@ -110,7 +153,9 @@ function setup(){
     height: 260,
     origin: 'bl',
     items: [
-      firstShortcut,
+      internetShortcut,
+      notepadShortcut,
+      settingsShortcut
     ]
   });
   MenuButton.addEvent('onMouseRelease',function(){

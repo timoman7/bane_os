@@ -30,14 +30,7 @@ export default class InternetBrowser extends Window{
     this.url = this.DOMURL.createObjectURL(this.svg);
     this.img.src = this.url;
     this.events.forEach((event) => {
-
-      this.addEvent(event, function(e){
-        this.topBar.children.forEach((child)=>{
-          this.topBar.children[child].addEvent(event, function(e){
-            console.log(e);
-          })
-        });
-      });
+      console.log(event)
     });
   }
   update(){

@@ -15,9 +15,15 @@ export default class Navigator{
     this.backgroundColor = "#20a0a0";
     this.textColor = "#f0aaaa";
     this.children = {
-      Menu: [],
-      Programs: [],
-      QuickButtons: []
+      Menu: {
+        children: []
+      },
+      Programs: {
+        children: []
+      },
+      QuickButtons: {
+        children: []
+      }
     };
     this.events = new Events();
   }
@@ -34,14 +40,14 @@ export default class Navigator{
     this.events.removeEvent(eventName,func);
   }
   addItem(type, item){
-    this.children[type].push(item);
+    this.children[type].children.push(item);
   }
   removeItem(type, item){
-    this.children[type].splice(this.children[type].indexOf(item), 1);
+    this.children[type].children.splice(this.children[type].children.indexOf(item), 1);
   }
   update(){
     ["Menu","Programs","QuickButtons"].forEach((type) => {
-      this.children[type].forEach((item) =>{
+      this.children[type].children.forEach((item) =>{
         item.update();
       });
     });
@@ -50,7 +56,7 @@ export default class Navigator{
     SCREEN.fillStyle = this.backgroundColor;
     SCREEN.fillRect(this.x, this.y, this.width, this.height);
     ["Menu","Programs","QuickButtons"].forEach((type) => {
-      this.children[type].forEach((item) =>{
+      this.children[type].children.forEach((item) =>{
         item.draw();
       });
     });

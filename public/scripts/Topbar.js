@@ -48,15 +48,20 @@ export default class Topbar{
       }),
     ];
     var self = this;
-    this.children[0].addEvent("onMouseRelease", function(e){
+    this.children[0].addEvent("onMouseRelease", (e)=>{
       console.log(self, this)
     }); // Minimize
-    this.children[1].addEvent("onMouseRelease", function(e){
+    this.children[1].addEvent("onMouseRelease", (e)=>{
+      console.log(e)
       this.pastWidth = this.width;
       this.pastHeight = this.height;
     }); // Maximize
-    this.children[2].addEvent("onMouseRelease", function(e){
-
+    this.children[2].addEvent("onMouseRelease", (e)=>{
+      if(self.Parent.close){
+        self.Parent.close();
+      }else if(self.Parent.end){
+        self.Parent.end();
+      }
     }); // Close
     this.events = new Events();
   }

@@ -23,5 +23,8 @@
   "homepage": "https://github.com/timoman7/bane_os#readme",
   "dependencies": {
     "serve": "^6.4.1"
+  },
+  "devDependencies": {
+    "es-module-loader": "^2.2.8"
   }
 }

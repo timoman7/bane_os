@@ -1,0 +1,111 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "es-module-loader",
+        "scope": null,
+        "escapedName": "es-module-loader",
+        "name": "es-module-loader",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\timom\\Desktop\\Coding\\WebStuff\\BaneOS"
+    ]
+  ],
+  "_from": "es-module-loader@latest",
+  "_id": "es-module-loader@2.2.8",
+  "_inCache": true,
+  "_location": "/es-module-loader",
+  "_nodeVersion": "8.5.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/es-module-loader-2.2.8.tgz_1505738786390_0.8732663099654019"
+  },
+  "_npmUser": {
+    "name": "guybedford",
+    "email": "guybedford@gmail.com"
+  },
+  "_npmVersion": "5.3.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "es-module-loader",
+    "scope": null,
+    "escapedName": "es-module-loader",
+    "name": "es-module-loader",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/es-module-loader/-/es-module-loader-2.2.8.tgz",
+  "_shasum": "24b8cb22faa3d252cdcf06d1083a72447bd69c39",
+  "_shrinkwrap": null,
+  "_spec": "es-module-loader",
+  "_where": "C:\\Users\\timom\\Desktop\\Coding\\WebStuff\\BaneOS",
+  "author": {
+    "name": "Guy Bedford, Luke Hoban, Addy Osmani",
+    "url": "https://github.com/ModuleLoader"
+  },
+  "bugs": {
+    "url": "https://github.com/ModuleLoader/es-module-loader/issues"
+  },
+  "dependencies": {},
+  "description": "An ES Module Loader shim",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-es2015-modules-systemjs": "^6.14.0",
+    "benchmark": "^2.1.1",
+    "mocha": "^3.0.2",
+    "node-es-module-loader": "^0.1.1",
+    "systemjs": "^0.19.36"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-EdTWmI4b/Y4kHEgnucMsArn/j8XzBBqLA8VX3S29owVxfd4+TCETnc31xQvQPp0hRSgpfy1N6KWQghRjxqhFlA==",
+    "shasum": "24b8cb22faa3d252cdcf06d1083a72447bd69c39",
+    "tarball": "https://registry.npmjs.org/es-module-loader/-/es-module-loader-2.2.8.tgz"
+  },
+  "gitHead": "d35348dfdfa76103df1ee4878bd29f8b93e9e2e6",
+  "homepage": "https://github.com/ModuleLoader/es-module-loader",
+  "keywords": [
+    "modules",
+    "module loader",
+    "loader",
+    "es modules"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ModuleLoader/es-module-loader/blob/master/LICENSE-MIT"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "guybedford",
+      "email": "guybedford@gmail.com"
+    },
+    {
+      "name": "rich_harris",
+      "email": "richard.a.harris@gmail.com"
+    }
+  ],
+  "name": "es-module-loader",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ModuleLoader/es-module-loader.git"
+  },
+  "scripts": {
+    "bench": "node-esml bench/runner.js",
+    "make-test": "babel test/fixtures/es-modules --out-dir test/fixtures/register-modules",
+    "test": "node-esml test/runner.js",
+    "test-inspect": "node --inspect node_modules/.bin/node-esml test/runner.js"
+  },
+  "version": "2.2.8"
+}
