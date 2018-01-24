@@ -330,19 +330,37 @@ export default class Pointer{
           }
           if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
             OS_CLASS.events.onMouseClick.forEach((CB) => {
-              CB(SCREEN.mouse);
+              if(OS_CLASS.state){
+                if(OS_CLASS.state == 'visible'){
+                  CB(SCREEN.mouse);
+                }
+              }else{
+                CB(SCREEN.mouse);
+              }
             });
           }
           if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
             console.log(SCREEN.mouse.pastButton)
             OS_CLASS.events.onMouseRelease.forEach((CB) => {
-              CB(SCREEN.mouse);
+              if(OS_CLASS.state){
+                if(OS_CLASS.state == 'visible'){
+                  CB(SCREEN.mouse);
+                }
+              }else{
+                CB(SCREEN.mouse);
+              }
             });
           }
         }
       }else{
         if(this.x > OS_CLASS.rx && this.x < OS_CLASS.rx + OS_CLASS.width && this.y > OS_CLASS.ry && this.y < OS_CLASS.ry + OS_CLASS.height){
-          this.state = OS_CLASS.hoverState || 'default';
+          if(OS_CLASS.state){
+            if(OS_CLASS.state == 'visible'){
+              this.state = OS_CLASS.hoverState || 'default';
+            }
+          }else{
+            this.state = OS_CLASS.hoverState || 'default';
+          }
           this.overItem = true;
           if(SCREEN.mouse){
             SCREEN.mouse.hoverTime++;
@@ -350,41 +368,30 @@ export default class Pointer{
           }
           if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
             OS_CLASS.events.onMouseClick.forEach((CB) => {
-              CB(SCREEN.mouse);
+              if(OS_CLASS.state){
+                if(OS_CLASS.state == 'visible'){
+                  CB(SCREEN.mouse);
+                }
+              }else{
+                CB(SCREEN.mouse);
+              }
             });
           }
           if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
             console.log(SCREEN.mouse.pastButton)
             OS_CLASS.events.onMouseRelease.forEach((CB) => {
-              CB(SCREEN.mouse);
+              if(OS_CLASS.state){
+                if(OS_CLASS.state == 'visible'){
+                  CB(SCREEN.mouse);
+                }
+              }else{
+                CB(SCREEN.mouse);
+              }
             });
           }
         }
       }
     });
-    // ["Menu","Programs","QuickButtons"].forEach((type) => {
-    //   NavToolbar.children[type].children.forEach((item) =>{
-    //     if(this.x > item.x && this.x < item.x + item.width && this.y > item.y && this.y < item.y + item.height){
-    //       this.state = item.hoverState;
-    //       this.overItem = true;
-    //       if(SCREEN.mouse){
-    //         SCREEN.mouse.hoverTime++;
-    //         SCREEN.mouse.overItem = item;
-    //       }
-    //       if(SCREEN.mouse ? (SCREEN.mouse.button.left == true || SCREEN.mouse.button.right == true) : false){
-    //         item.events.onMouseClick.forEach((CB) => {
-    //           CB(SCREEN.mouse);
-    //         });
-    //       }
-    //       if(SCREEN.mouse ? (SCREEN.mouse.justReleased.left || SCREEN.mouse.justReleased.right) : false){
-    //         console.log(SCREEN.mouse.pastButton)
-    //         item.events.onMouseRelease.forEach((CB) => {
-    //           CB(SCREEN.mouse);
-    //         });
-    //       }
-    //     }
-    //   });
-    // });
     if(!this.overItem){
       this.state = "default";
       if(SCREEN.mouse){

@@ -18,11 +18,12 @@ export default class Notepad extends Executable{
         height: 500
       });
     }
+    this.textData = '';
     this.events = new Events();
     this.topBar = new Topbar(this);
     this.data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
                '<foreignObject width="100%" height="100%" style="border: 4px solid black;">' +
-               '<div xmlns="http://www.w3.org/1999/xhtml"><input></input></div>' +
+               '<div xmlns="http://www.w3.org/1999/xhtml"><p>'+this.textData+'</p></div>' +
                '</foreignObject>' +
                '</svg>';
     this.DOMURL = window.URL || window.webkitURL || window;
@@ -35,6 +36,14 @@ export default class Notepad extends Executable{
     this.children = [
       this.topBar
     ];
+    this.events.addEvent('onKeyDown',(key)=>{
+      console.log(key)
+      if(key.code != "Backspace"){
+        this.textData += key.code;
+      }else{
+        this.textData = this.textData.sub(0,this.textData.length-1);
+      }
+    });
   }
   run(){
 
@@ -43,7 +52,11 @@ export default class Notepad extends Executable{
     ClassHolder.splice(ClassHolder.indexOf(this),1);
   }
   update(){
-
+    this.data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
+               '<foreignObject width="100%" height="100%" style="border: 4px solid black;">' +
+               '<div xmlns="http://www.w3.org/1999/xhtml"><p>'+this.textData+'</p></div>' +
+               '</foreignObject>' +
+               '</svg>';
   }
   draw(){
     if(this.img ? this.img.complete : false){

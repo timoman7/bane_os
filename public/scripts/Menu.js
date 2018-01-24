@@ -67,7 +67,8 @@ export default class Menu{
     this.tly = this.offset.y < 0 ? this.y - this.height : this.y;
     this.items.forEach((item) => {
       if(item.position == 'relative'){
-        item.update(this.tlx, this.tly + (this.items.indexOf(item)>0?2:0) + (this.items.indexOf(item) * parseFloat(SCREEN.font.split(" ")[0].replace('px',''))));
+        //item.update(this.tlx,(this.tly + 4) + (this.items.indexOf(item) * parseFloat(SCREEN.font.split(" ")[0].replace('px',''))));
+        item.update(this.tlx, this.tly + (this.items.indexOf(item)>0?this.items.indexOf(item)*22:0));
       }else{
         item.update();
       }
@@ -81,7 +82,7 @@ export default class Menu{
         item.draw();
         if(this.items.indexOf(item)>0){
 
-          SCREEN.fillRect(this.x,(this.tly + 4) + (this.items.indexOf(item) * parseFloat(SCREEN.font.split(" ")[0].replace('px',''))),this.width*this.offset.x,2*this.offset.y);
+          SCREEN.fillRect(this.x,this.tly + (this.items.indexOf(item)>0?this.items.indexOf(item)*22:0),this.width*this.offset.x,2*this.offset.y);
         }
       });
     }

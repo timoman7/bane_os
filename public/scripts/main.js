@@ -1,5 +1,6 @@
 import Window from './Window.js';
 import Pointer from './Pointer.js';
+import Keyboard from './Keyboard.js';
 import Events from './Events.js';
 import Navigator from './Navigator.js';
 import Menu from './Menu.js';
@@ -31,6 +32,7 @@ let NavToolbar;
 let DesktopEnv;
 let MenuButton;
 let MousePointer;
+let KeyboardObj;
 let StartMenu;
 let ProgramNames = ['./Programs/Notepad.js','./Programs/Settings.js'];
 let Programs = {};
@@ -82,6 +84,7 @@ function preload(){
   DesktopEnv = new Desktop(SCREEN.canvas.width,SCREEN.canvas.height);
   NavToolbar = new Navigator();
   MousePointer = new Pointer();
+  KeyboardObj = new Keyboard();
   ClassHolder.push(DesktopEnv);
   ClassHolder.push(NavToolbar);
   for(let PNI = 0; PNI < ProgramNames.length; PNI++){
@@ -95,6 +98,7 @@ function preload(){
   }
   // console.log(Notepad)
   window.MousePointer = MousePointer;
+  window.KeyboardObj = KeyboardObj;
     console.log("State - Preload - Finish")
 }
 function setup(){
@@ -179,6 +183,7 @@ function update(){
   //console.log("Update requested")
   DesktopEnv.update();
   NavToolbar.update();
+  KeyboardObj.update();
   for(let ClassIndex = 0; ClassIndex < ClassHolder.length; ClassIndex++){
     ClassHolder[ClassIndex].update();
   }

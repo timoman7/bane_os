@@ -16,6 +16,7 @@ export default class Shortcut{
     this.position = "relative";
     this.type = "Shortcut";
     this.state = "hidden";
+    this.hoverState = 'pointer';
     this.rx = 0;
     this.ry = 0;
     this.BACKGROUND_COLOR = "#ffffff";

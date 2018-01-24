@@ -6,6 +6,10 @@ export default class Events{
     this.onMouseRelease = [];
     this.onMouseDown = [];
     this.onMouseUp = [];
+    this.onKeyUp = [];
+    this.onKeyDown = [];
+    this.onKeyRelease = [];
+    this.onKeyPress = [];
     if(arguments.length > 0){
       arguments.forEach((eventName) => {
         this[eventName] = [];
@@ -28,6 +32,6 @@ export default class Events{
     this[eventName].splice(this[eventName].indexOf(func),1);
   }
   addEventListener(eventName, callback){
-
+    window.addEventListener(eventName, callback, arguments[2] ? true : false);
   }
 }
