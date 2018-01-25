@@ -2,6 +2,7 @@
 * Class for Executable Objects
 */
 
+import * as BOSLib from './../BOSLib.js';
 import {SCREEN} from './../Screen.js';
 import Events from './../Events.js';
 import Executable from './../Executable.js';
@@ -36,13 +37,29 @@ export default class Notepad extends Executable{
     this.children = [
       this.topBar
     ];
-    this.events.addEvent('onKeyDown',(key)=>{
-      console.log(key)
-      if(key.code != "Backspace"){
-        this.textData += key.code;
-      }else{
-        this.textData = this.textData.sub(0,this.textData.length-1);
-      }
+    this.events.addEvent('onKeyDown',(keys)=>{
+      console.log(keys)
+      Object.keys(keys).forEach((key)=>{
+        if(keys[key].type == 'keydown'){
+          if(keys[key].repeat){
+            if(keys[key].code != "Backspace"){
+              this.textData += BOSLib.String.keyToChar(keys[key]);
+            }else{
+              this.textData = this.textData.sub(0,this.textData.length-1);
+            }
+          }else{
+            if(keys[key].type == "keydown" &&
+              !this.textData.endsWith(BOSLib.String.keyToChar(keys[key]))
+            ){
+              if(keys[key].code != "Backspace"){
+                this.textData += BOSLib.String.keyToChar(keys[key]);
+              }else{
+                this.textData = this.textData.sub(0,this.textData.length-1);
+              }
+            }
+          }
+        }
+      });
     });
   }
   run(){

@@ -1,3 +1,4 @@
+import * as BOSLib from './BOSLib.js';
 import Window from './Window.js';
 import Pointer from './Pointer.js';
 import Keyboard from './Keyboard.js';
@@ -13,6 +14,7 @@ import InternetBrowser from './InternetBrowser.js';
 import {File, Folder} from './File.js';
 import {SCREEN} from './Screen.js';
 import {ClassHolder} from './ClassHolder.js';
+window.BOSLib = BOSLib;
 //import {Loader, ModuleNamespace} from './es-module-loader/core/loader-polyfill.js';
 // TODO: Add generalized right clicking
 // TODO: Close menus when clicking anywhere except on them

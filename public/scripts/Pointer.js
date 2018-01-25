@@ -2,47 +2,11 @@
 * Class for Pointer elements
 *
 */
+import * as BOSLib from './BOSLib.js';
 import {SCREEN} from './Screen.js';
 import {cursor_icons} from './Cursor_Icons.js';
 import {ClassHolder} from './ClassHolder.js';
 
-function recursiveFor(OS_CLASS, CB, hitEnd){
-  if(hitEnd != true){
-  	if(OS_CLASS == ClassHolder){
-      OS_CLASS.forEach((child)=>{
-        recursiveFor(child, CB, false);
-      });
-    }else if(OS_CLASS.children){
-      if(OS_CLASS.children.forEach){
-  		  OS_CLASS.children.forEach((child) => {
-          recursiveFor(child, CB, false);
-        });
-      }else if(Object.keys(OS_CLASS.children)){
-        [...Object.keys(OS_CLASS.children)].forEach((child) => {
-          recursiveFor(OS_CLASS.children[child], CB, false);
-        });
-      }
-  	}else if(OS_CLASS.items){
-      if(OS_CLASS.items.forEach){
-  		  OS_CLASS.items.forEach((item) => {
-          recursiveFor(item, CB, false);
-        });
-      }else if(Object.keys(OS_CLASS.items)){
-        [...Object.keys(OS_CLASS.items)].forEach((item) => {
-          recursiveFor(OS_CLASS.items[item], CB, false);
-        });
-      }
-    }else{
-		  recursiveFor(OS_CLASS, CB, true);
-    }
-  }else{
-    if(CB){
-      CB(OS_CLASS);
-    }
-  	return OS_CLASS;
-  }
-}
-window.recursiveFor=recursiveFor;
 export default class Pointer{
   constructor(){
     this.x = 0;
@@ -319,7 +283,7 @@ export default class Pointer{
     this.y = SCREEN.mouse !== undefined ? SCREEN.mouse.pos !== undefined ? SCREEN.mouse.pos.y /*- (this.icons[this.state].h-1)/4 */: 0 : 0;
     //Add z-index-esque property to windows and buttons later
     this.overItem = false;
-    recursiveFor(ClassHolder,(OS_CLASS) => {
+    BOSLib.recursiveFor(ClassHolder,(OS_CLASS) => {
       if(OS_CLASS.position ? OS_CLASS.position != 'relative': true){
         if(this.x > OS_CLASS.x && this.x < OS_CLASS.x + OS_CLASS.width && this.y > OS_CLASS.y && this.y < OS_CLASS.y + OS_CLASS.height){
           this.state = OS_CLASS.hoverState || 'default';

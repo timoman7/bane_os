@@ -2,6 +2,7 @@
 * Class for Keyboard elements
 *
 */
+import * as BOSLib from './BOSLib.js';
 import {SCREEN} from './Screen.js';
 import {ClassHolder} from './ClassHolder.js';
 let GlobalKeys = [
@@ -111,7 +112,8 @@ export default class Keyboard{
         altKey: false,
         ctrlKey: false,
         metaKey: false,
-        repeat: false
+        repeat: false,
+        type: undefined
       };
     });
     window.addEventListener('keyup',(e)=>{
@@ -120,6 +122,7 @@ export default class Keyboard{
         tempObj[key] = e[key];
       });
       this.keys[e.code] = Object.assign({}, tempObj);
+      this.updateCB(this.keys, e.type);
     },false);
     window.addEventListener('keydown',(e)=>{
       let tempObj = {};
@@ -127,6 +130,7 @@ export default class Keyboard{
         tempObj[key] = e[key];
       });
       this.keys[e.code] = Object.assign({}, tempObj);
+      this.updateCB(this.keys, e.type);
     },false);
     window.addEventListener('keypress',(e)=>{
       let tempObj = {};
@@ -134,7 +138,12 @@ export default class Keyboard{
         tempObj[key] = e[key];
       });
       this.keys[e.code] = Object.assign({}, tempObj);
+      this.updateCB(this.keys, e.type);
     },false);
+  }
+  updateCB(newKeys, keyState){
+    this.keys = newKeys;
+    this.keyState = keyState;
   }
   set(prop, val){
     this[prop] = val;
@@ -143,6 +152,29 @@ export default class Keyboard{
     return this[prop];
   }
   update(){
-
+    BOSLib.recursiveFor(ClassHolder,(OS_CLASS) => {
+      if(true /*Is tracking keyboard*/ && OS_CLASS.events){
+        if(this.keyState == 'keyup'){
+          OS_CLASS.events.onKeyUp.forEach((CB) => {
+            CB(this.keys);
+          });
+        }
+        if(this.keyState == 'keydown'){
+          OS_CLASS.events.onKeyDown.forEach((CB) => {
+            CB(this.keys);
+          });
+        }
+        if(this.keyState == 'keypress'){
+          OS_CLASS.events.onKeyPress.forEach((CB) => {
+            CB(this.keys);
+          });
+        }
+        if(this.keyState == 'keyrelease'){
+          OS_CLASS.events.onKeyRelease.forEach((CB) => {
+            CB(this.keys);
+          });
+        }
+      }
+    });
   }
 }
