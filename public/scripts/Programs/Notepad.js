@@ -23,8 +23,8 @@ export default class Notepad extends Executable{
     this.events = new Events();
     this.topBar = new Topbar(this);
     this.data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
-               '<foreignObject width="100%" height="100%" style="border: 4px solid black;">' +
-               '<div xmlns="http://www.w3.org/1999/xhtml"><p>'+this.textData+'</p></div>' +
+               '<foreignObject width="100%" height="100%" style="border: 4px solid black; backgrond: #eeeeee">' +
+               '<div xmlns="http://www.w3.org/1999/xhtml"><p style="color: black">'+this.textData+'</p></div>' +
                '</foreignObject>' +
                '</svg>';
     this.DOMURL = window.URL || window.webkitURL || window;
